@@ -1,17 +1,12 @@
-//Ensure MongoDB Community Service running
-//Enter terminal commands first:
-//npm install mongoose
-//Start server:
-//npm start
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const routes = require('./routes');
 
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(express.static(__dirname + '/public'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,8 +27,7 @@ connection.once(
 
 app.use(express.static('client/build'));
 
-const addRouter = require('./routes/contacts');
-app.use('/contacts', addRouter);
+app.use(routes);
 
 app.listen(port, 
     () => console.log(`Running on ${port}`)
